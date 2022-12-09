@@ -10,13 +10,14 @@ My exercism solutions because why the hell not.
 - Tester: [cargo test](https://github.com/rust-lang/cargo)
 - Linter: [clippy](https://github.com/rust-lang/rust-clippy)
 - Formatter: [rustfmt](https://github.com/rust-lang/rustfmt)
-
+- Dependcy Manager: [cargo new](https://github.com/rust-lang/cargo)
 
 # [Python](https://exercism.org/tracks/python)
 [![PythonLogo](https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg)](https://exercism.org/tracks/python)
 - Tester: [pytest](https://github.com/pytest-dev/pytest)
 - Linter: [pylint](https://github.com/PyCQA/pylint)
 - Formatter: [black](https://github.com/psf/black)
+- Depedency Manager: [poetry](https://github.com/python-poetry/poetry)
 - Type Checker: [mypy](https://github.com/python/mypy)
 
 # [Bash](https://exercism.org/tracks/bash)
