@@ -11,6 +11,7 @@ My exercism solutions because why the hell not.
 - Linter: [clippy](https://github.com/rust-lang/rust-clippy)
 - Formatter: [rustfmt](https://github.com/rust-lang/rustfmt)
 - Dependcy Manager: [cargo new](https://github.com/rust-lang/cargo)
+- LSP: [rust-analyzer](https://github.com/rust-lang/rust-analyzer)
 
 # [Python](https://exercism.org/tracks/python)
 [![PythonLogo](https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg)](https://exercism.org/tracks/python)
@@ -18,6 +19,7 @@ My exercism solutions because why the hell not.
 - Linter: [pylint](https://github.com/PyCQA/pylint)
 - Formatter: [black](https://github.com/psf/black)
 - Depedency Manager: [poetry](https://github.com/python-poetry/poetry)
+- LSP: [pyright](https://github.com/microsoft/pyright)
 - Type Checker: [mypy](https://github.com/python/mypy)
 
 # [Bash](https://exercism.org/tracks/bash)
@@ -25,6 +27,7 @@ My exercism solutions because why the hell not.
 - Tester: [bats](https://github.com/sstephenson/bats)
 - Linter: [shellcheck](https://github.com/koalaman/shellcheck)
 - Formatter: [shfmt](https://github.com/mvdan/sh)
+- LSP: [bash-language-server](https://github.com/bash-lsp/bash-language-server)
 
 ## I am also keen on:
 
