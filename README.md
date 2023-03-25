@@ -4,6 +4,11 @@
 My exercism solutions because why the hell not.
 
 ## I code in with these tools:
+- **Tester** - helps run and manage tests, ensuring your code works as expected.
+- **Linter** - analyzes your code for potential errors, stylistic issues, and enforces best practices.
+- **Formatter** - automatically formats your code to a consistent style, making it easier to read and maintain.
+- **Dependency Manager** - helps manage and track external libraries and packages your project relies on, ensuring compatibility and simplifying updates.
+- **LSP (Language Server Protocol)** - a standardized protocol for communication between text editors or IDEs and language servers, enabling features like code completion, syntax highlighting, and error checking.
 
 # [Rust](https://exercism.org/tracks/rust)
 [![RustLogo](https://raw.githubusercontent.com/rust-lang/rust-artwork/master/logo/rust-logo-blk.svg)](https://exercism.org/tracks/rust)
