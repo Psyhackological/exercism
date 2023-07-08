@@ -23,7 +23,7 @@ pub fn color_to_value(_color: ResistorColor) -> u32 {
 pub fn value_to_color_string(value: u32) -> String {
     match ResistorColor::from_int(value) {
         Ok(color) => format!("{:?}", color),
-        Err(_) => format!("value out of range"),
+        Err(_) => "value out of range".to_string(),
     }
 }
 
