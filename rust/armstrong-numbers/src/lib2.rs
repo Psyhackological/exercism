@@ -1,24 +1,21 @@
-// "hacky solution"
+// kind-of-iterator solution
 pub fn is_armstrong_number(num: u32) -> bool {
-    let mut armstrong_sum: Option<u32> = Some(0);
     let str_num: String = num.to_string();
     let num_length: usize = str_num.len();
 
-    for digit_char in str_num.chars() {
-        let digit = digit_char as u32 - 48;
-        // https://stackoverflow.com/a/41380607
-        let powered = match digit.checked_pow(num_length as u32) {
-            Some(result) => result,
-            None => return false, // Overflow occurred in power operation
-        };
-        armstrong_sum = match armstrong_sum.unwrap().checked_add(powered) {
-            Some(result) => Some(result),
-            None => return false, // Overflow occurred in addition operation
+    let mut armstrong_sum: u32 = 0;
+
+    for digit in str_num.chars().map(|c| c.to_digit(10).unwrap()) {
+        match digit.checked_pow(num_length as u32) {
+            Some(val) => {
+                armstrong_sum = match armstrong_sum.checked_add(val) {
+                    Some(new_sum) => new_sum,
+                    None => return false,
+                }
+            }
+            None => return false,
         };
     }
 
-    match armstrong_sum {
-        Some(sum) => num == sum,
-        None => false, // Overflow occurred
-    }
+    num == armstrong_sum
 }

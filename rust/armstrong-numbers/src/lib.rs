@@ -1,21 +1,26 @@
-// kind-of-iterator solution
+// purely numerical approach
 pub fn is_armstrong_number(num: u32) -> bool {
-    let str_num: String = num.to_string();
-    let num_length: usize = str_num.len();
+    // Avoids the overhead of converting the number to a string
+    let mut n = num;
+    // Computes the length of the number using logarithm, which is faster than converting to a string and finding length
+    let len = ((num as f32).log10() as u32) + 1;
+    let mut sum: u32 = 0;
 
-    let mut armstrong_sum: u32 = 0;
-
-    for digit in str_num.chars().map(|c| c.to_digit(10).unwrap()) {
-        match digit.checked_pow(num_length as u32) {
-            Some(val) => {
-                armstrong_sum = match armstrong_sum.checked_add(val) {
-                    Some(new_sum) => new_sum,
-                    None => return false,
-                }
-            }
-            None => return false,
+    while n > 0 {
+        // Performs direct arithmetic operation to get the digits, avoiding the need for iterating over string characters
+        let digit = n % 10;
+        // Uses `checked_pow()` to avoid potential overflow
+        let powered = match digit.checked_pow(len) {
+            Some(result) => result,
+            None => return false, // Overflow occurred in power operation
         };
+        // Uses `checked_add()` to avoid potential overflow
+        sum = match sum.checked_add(powered) {
+            Some(result) => result,
+            None => return false, // Overflow occurred in addition operation
+        };
+        n /= 10;
     }
 
-    num == armstrong_sum
+    num == sum
 }
