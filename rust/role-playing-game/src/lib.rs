@@ -10,43 +10,36 @@ pub struct Player {
 
 impl Player {
     pub fn revive(&self) -> Option<Player> {
-        // health<u32> so it cannot be negative
-        if self.health == u32::MIN {
-            Some(Self {
-                // full refill with current level
-                health: 100,
-                mana: if self.level >= 10 { Some(100) } else { None },
-                level: self.level,
-            })
+        // Check if player is dead
+        if self.health > 0 {
+            return None;
         }
-        // otherwise Player is alive
-        else {
-            None
-        }
+
+        // Create a new player with restored health
+        let mut new_player = Player {
+            health: 100,
+            // Mana is restored only if player level is 10 or higher
+            mana: if self.level >= 10 { Some(100) } else { None },
+            level: self.level,
+        };
+
+        Some(new_player)
     }
 
     pub fn cast_spell(&mut self, mana_cost: u32) -> u32 {
-        // getting and mathcing mana_value within without using unwrap()
-        match self.mana {
-            Some(mana_value) => {
-                if mana_cost > mana_value {
-                    u32::MIN
-                } else {
-                    self.mana = Some(mana_value - mana_cost);
-                    mana_cost * 2
-                }
-            }
-            None => {
-                // health<u32> cannot be negative
-                if self.health > mana_cost {
-                    self.health -= mana_cost;
-                // u32::MIN = 0
-                } else {
-                    self.health = u32::MIN;
-                }
-                // in both cases we return 0
-                u32::MIN
-            }
+        // Player doesn't have a mana pool
+        if self.mana.is_none() {
+            self.health = self.health.saturating_sub(mana_cost);
+            return 0;
         }
+
+        // Player has a mana pool but insufficient mana
+        if self.mana.unwrap() < mana_cost {
+            return 0;
+        }
+
+        // Player has sufficient mana, cast the spell
+        self.mana = Some(self.mana.unwrap() - mana_cost);
+        mana_cost * 2
     }
 }
