@@ -9,7 +9,7 @@ elif [ ! -d "$1" ]; then
 fi
 
 dir="${1%/}"
-echo "Directory exists: $dir"
+echo "I'm going to provide you with my solutions with all the code and a README.md file that explains what needs to be done. Please check solutions in terms of performance and efficiency."
 echo
 
 echo "Exercise: $dir"
