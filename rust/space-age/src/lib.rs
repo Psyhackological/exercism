@@ -1,23 +1,43 @@
-// The code below is a stub. Just enough to satisfy the compiler.
-// In order to pass the tests you can add-to or change any of this code.
+const EARTH_YEAR_IN_SECONDS: f64 = 31557600.0;
+
+// 4. Consider using a macro to avoid repetition in trait implementation:
+macro_rules! implement_planet {
+    ($planet:ident, $orbital_period:expr) => {
+        impl Planet for $planet {
+            fn years_during(d: &Duration) -> f64 {
+                d.0 as f64 / ($orbital_period * EARTH_YEAR_IN_SECONDS)
+            }
+        }
+    };
+}
+
+// 1. Understand the Problem: Convert an age in seconds into years on different planets.
+// Like this math
+implement_planet!(Mercury, 0.2408467);
+implement_planet!(Venus, 0.61519726);
+implement_planet!(Earth, 1.0);
+implement_planet!(Mars, 1.8808158);
+implement_planet!(Jupiter, 11.862615);
+implement_planet!(Saturn, 29.447498);
+implement_planet!(Uranus, 84.016846);
+implement_planet!(Neptune, 164.79132);
 
 #[derive(Debug)]
-pub struct Duration;
+pub struct Duration(u64);
 
 impl From<u64> for Duration {
     fn from(s: u64) -> Self {
-        unimplemented!("s, measured in seconds: {s}")
+        Self(s)
     }
 }
 
+// 2. Define a Trait `Planet`:
 pub trait Planet {
-    fn years_during(d: &Duration) -> f64 {
-        unimplemented!(
-            "convert a duration ({d:?}) to the number of years on this planet for that duration"
-        );
-    }
+    fn years_during(d: &Duration) -> f64;
 }
 
+// 3. Create structs for each planet. e.g.:
+// This was already created so I leave it as it is
 pub struct Mercury;
 pub struct Venus;
 pub struct Earth;
@@ -26,12 +46,3 @@ pub struct Jupiter;
 pub struct Saturn;
 pub struct Uranus;
 pub struct Neptune;
-
-impl Planet for Mercury {}
-impl Planet for Venus {}
-impl Planet for Earth {}
-impl Planet for Mars {}
-impl Planet for Jupiter {}
-impl Planet for Saturn {}
-impl Planet for Uranus {}
-impl Planet for Neptune {}
