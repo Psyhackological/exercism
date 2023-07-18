@@ -13,12 +13,12 @@ pub trait Planet {
 }
 
 macro_rules! define_and_implement_planet {
-    ($planet_name:ident, $orbital_period:literal) => {
+    ($planet_name:ident, $earth_year_equivalent:literal) => {
         pub struct $planet_name;
 
         impl Planet for $planet_name {
             fn years_during(d: &Duration) -> f64 {
-                d.0 / ($orbital_period * EARTH_YEAR_IN_SECONDS)
+                d.0 / ($earth_year_equivalent * EARTH_YEAR_IN_SECONDS)
             }
         }
     };
