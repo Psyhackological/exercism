@@ -21,10 +21,6 @@ pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
 
     diagram
         .lines()
-        .flat_map(|line| {
-            line[cup_start..=cup_start + 1]
-                .chars()
-                .map(|cup| char_map(cup))
-        })
+        .flat_map(|line| line[cup_start..=cup_start + 1].chars().map(char_map))
         .collect()
 }
