@@ -1,14 +1,19 @@
-// Not my solution - https://exercism.org/tracks/rust/exercises/proverb/solutions/nickers
-// I send this solution to my GitHub repo and to archive it.
-use std::iter::once;
-
 pub fn build_proverb(list: &[&str]) -> String {
-    match list.first() {
-        None => String::new(),
-        Some(word) => list
-            .windows(2)
-            .map(|w| format!("For want of a {} the {} was lost.\n", w[0], w[1]))
-            .chain(once(format!("And all for the want of a {}.", word)))
-            .collect(),
+    let mut proverb = String::new();
+
+    match list.len() {
+        0 => (),
+        1 => return format!("And all for the want of a {0}.", list[0]),
+        _ => {
+            proverb = list
+                .iter()
+                .zip(list.iter().skip(1))
+                .map(|(f, s)| format!("For want of a {f} the {s} was lost."))
+                .collect::<Vec<String>>()
+                .join("\n");
+            proverb.push_str(&format!("\nAnd all for the want of a {0}.", list[0]));
+        }
     }
+
+    proverb
 }
