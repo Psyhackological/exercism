@@ -11,6 +11,11 @@ fn is_mine_at(result: &[Vec<char>], x: i32, y: i32, w: i32, h: i32) -> bool {
 }
 
 pub fn annotate(minefield: &[&str]) -> Vec<String> {
+    // Handle the case where the minefield is empty.
+    if minefield.is_empty() {
+        return Vec::new();
+    }
+
     // Calculate the height (h) and width (w) of the minefield.
     let h = minefield.len();
     let w = minefield[0].len();
