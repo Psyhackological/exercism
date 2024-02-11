@@ -50,6 +50,3 @@ rsconnect/
 
 # LintR
 .lintr
-
-# Exercism folder
-.exercism/
