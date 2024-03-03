@@ -5,7 +5,9 @@ fn luhn_digit_doubler(digit: u8) -> u8 {
         1..=4 => digit * 2,
         // Next everything doubled is > 9 so - / % 9 is needed
         5..=9 => digit * 2 % 9,
-        _ => unreachable!("Congrats! You've done the impossible and got single digit character > 9!"),
+        _ => {
+            unreachable!("Congrats! You've done the impossible and got single digit character > 9!")
+        }
     }
 }
 
@@ -35,7 +37,7 @@ pub fn is_valid(code: &str) -> bool {
             let digit = ch.to_digit(10).unwrap_or(0) as u8;
 
             // even
-            if index % 2 == 0 {
+            if index & 1 == 0 { // Using bitwise AND to check if index is even
                 digit as u32
             // odd
             } else {
