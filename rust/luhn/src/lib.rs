@@ -2,16 +2,10 @@
 fn luhn_digit_doubler(digit: u8) -> u8 {
     match digit {
         0 | 9 => digit, // 9 * 2 - / % 9 = 9 and 0 * anything = 0
-        1 => 2,         // 9 > 2 = 2 * 1
-        2 => 4,         // 9 > 4 = 2 * 2
-        3 => 6,         // 9 > 6 = 2 * 3
-        4 => 8,         // 9 > 8 = 2 * 4
+        1..=4 => digit * 2,
         // Next everything doubled is > 9 so - / % 9 is needed
-        5 => 1, // 1 = 2 * 5 - 9 or 1 = 2 * 5 % 9
-        6 => 3, // 3 = 2 * 6 - 9 or 3 = 2 * 6 % 9
-        7 => 5, // 5 = 2 * 7 - 9 or 5 = 2 * 7 % 9
-        8 => 7, // 7 = 2 * 8 - 9 or 7 = 2 * 8 % 9
-        _ => unreachable!("Congrats! You've done impossible and got single digit character > 9!"),
+        5..=9 => digit * 2 % 9,
+        _ => unreachable!("Congrats! You've done the impossible and got single digit character > 9!"),
     }
 }
 
@@ -22,13 +16,13 @@ pub fn is_valid(code: &str) -> bool {
         .filter(|c| !c.is_whitespace()) // No whitespace please
         .collect::<String>(); // Let's get this cleaned code
 
-    // If any character is NOT ascii digit or cleaned_code <= 1 then
+    // If any character is NOT ascii digit or cleaned_code <= 1 or
     if cleaned_code.chars().any(|c| !c.is_ascii_digit())
         || cleaned_code.len() <= 1
-    // Preventing integer overflow
+    // integer overflow while summing then
         || cleaned_code.len() as u32 > u32::MAX / 9
     {
-        return false; // That's invalid
+        return false; // that's invalid
     }
 
     cleaned_code
