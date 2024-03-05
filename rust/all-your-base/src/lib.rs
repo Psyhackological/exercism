@@ -51,43 +51,36 @@ pub fn convert(number: &[u32], from_base: u32, to_base: u32) -> Result<Vec<u32>,
         return Ok(vec![0]);
     }
 
-    let mut decimal = 0;
-    for &digit in number {
-        // For example, in base 2, valid digits are 0 and 1.
-        if digit >= from_base {
-            return Err(Error::InvalidDigit(digit));
-        }
-        // For example
-        // Start with decimal = 0.
-        // First digit:  1 -> decimal = 0 * 2 + 1 = 1.
-        // Second digit: 0 -> decimal = 1 * 2 + 0 = 2.
-        // Third digit:  1 -> decimal = 2 * 2 + 1 = 5.
-        // Fourth digit: 0 -> decimal = 5 * 2 + 0 = 10.
-        // Fifth digit:  1 -> decimal = 10 * 2 + 1 = 21.
-        // Sixth digit:  0 -> decimal = 21 * 2 + 0 = 42.
-        // Now, decimal = 42.
-        decimal = decimal * from_base + digit;
+    if let Some(&invalid_digit) = number.iter().find(|&&digit| digit >= from_base) {
+        return Err(Error::InvalidDigit(invalid_digit));
     }
 
-    let mut result = Vec::new();
+    let mut decimal_value = number
+        .iter()
+        .rev()
+        .enumerate()
+        // acc = accumulator, idx = index, &val = value
+        .fold(0, |acc, (idx, &val)| acc + val * from_base.pow(idx as u32));
+
+    let mut converted_digits = Vec::new();
     // Iteration 1:
     // result.push(42 % 10) pushes 2 to result.
     // decimal becomes 42 / 10, which is 4.
     // Iteration 2:
     // result.push(4 % 10) pushes 4 to result.
     // decimal becomes 4 / 10, which is 0.
-    while decimal > 0 {
-        result.push(decimal % to_base); // Push the remainder of decimal divided by to_base into result
-        decimal /= to_base; // Divide decimal by to_base, updating decimal for the next iteration
+    while decimal_value > 0 {
+        converted_digits.push(decimal_value % to_base); // Push the remainder of decimal divided by to_base into result
+        decimal_value /= to_base; // Divide decimal by to_base, updating decimal for the next iteration
     }
 
-    // That means ran once
-    if result.is_empty() {
-        result.push(0);
+    // No digits were added, which implies the number is zero
+    if converted_digits.is_empty() {
+        converted_digits.push(0);
     } else {
         // We push from "lowest" to "highest" so the final digit is reversed
-        result.reverse();
+        converted_digits.reverse();
     }
 
-    Ok(result)
+    Ok(converted_digits)
 }
