@@ -1,0 +1,6 @@
+test bench_large_parallel   ... bench:     470,717.85 ns/iter (+/- 9,985.49)
+test bench_large_sequential ... bench:     711,999.20 ns/iter (+/- 24,142.83)
+test bench_small_parallel   ... bench:      16,310.11 ns/iter (+/- 296.08)
+test bench_small_sequential ... bench:      24,398.17 ns/iter (+/- 392.17)
+test bench_tiny_parallel    ... bench:          68.90 ns/iter (+/- 1.20)
+test bench_tiny_sequential  ... bench:          78.77 ns/iter (+/- 0.88

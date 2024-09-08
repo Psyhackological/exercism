@@ -10,3 +10,4 @@ rayon = []
 crossbeam = []
 
 [dependencies]
+rayon = "1.10"

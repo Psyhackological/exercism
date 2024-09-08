@@ -1,55 +1,42 @@
-// Inspiration to understand this solution with better naming and error handling
-// https://exercism.org/tracks/rust/exercises/parallel-letter-frequency/solutions/rsalmei
+use rayon::prelude::*;
 use std::collections::HashMap;
-use std::thread;
 
 pub fn frequency(input: &[&str], worker_count: usize) -> HashMap<char, usize> {
-    // a closure
+    // Closure that counts characters in a slice of lines (sequentially)
     let count_characters = |lines: &[&str]| {
         let mut char_frequencies = HashMap::new();
         for line in lines {
             for character in line
                 .chars()
-                .filter(|ch| ch.is_alphabetic()) // only alphabetic
+                .filter(|ch| ch.is_alphabetic()) // Only alphabetic
+                // Lowercase conversion
                 .map(|ch| ch.to_ascii_lowercase())
-            // only lowercase
             {
-                *char_frequencies.entry(character).or_default() += 1; // add to or create new entry
+                *char_frequencies.entry(character).or_default() += 1; // Add to or create new entry
             }
         }
         char_frequencies
     };
 
-    match input.len() {
-        0 => HashMap::new(),                                       // empty input
-        small_size if small_size < 500 => count_characters(input), // use one-threaded closure
-        // threads lets go
-        _ => thread::scope(|scope| {
-            let mut worker_handles = Vec::with_capacity(worker_count);
-            // +1 ensures even distribution of leftover lines when dividing texts.
-            for chunked_lines in input.chunks(input.len() / worker_count + 1) {
-                worker_handles.push(scope.spawn(|| count_characters(chunked_lines)))
-            }
-
-            // instead of empty HashMap we get 1 worker's value
-            let mut final_frequencies = worker_handles
-                .pop()
-                .expect("No worker handles available")
-                .join()
-                .expect("Thread panicked while joining");
-
-            for handle in worker_handles {
-                handle
-                    .join()
-                    .expect("Thread panicked while joining")
-                    .into_iter()
-                    .for_each(|(character, count)| {
-                        // or_default returns usize which is 0 and then adds the count
-                        *final_frequencies.entry(character).or_default() += count;
-                    })
-            }
-
-            final_frequencies
-        }),
+    if input.is_empty() || worker_count == 0 {
+        return HashMap::new();
     }
+
+    if input.len() <= 500 {
+        return count_characters(input);
+    }
+
+    // For larger inputs, we use Rayon for parallelism
+    input
+        .par_chunks(input.len().max(worker_count))
+        .map(count_characters)
+        .reduce(
+            HashMap::new, // Use the function directly instead of a closure
+            |mut acc, elem| {
+                for (character, count) in elem {
+                    *acc.entry(character).or_default() += count;
+                }
+                acc
+            },
+        )
 }
